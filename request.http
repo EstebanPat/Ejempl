@@ -1,0 +1,11 @@
+###
+POST http://localhost:3000/v1.0/addreses/new-address HTTP/1.1
+Content-Type: application/json
+
+{
+    "country": "Pais 1",
+    "department": "Departamento 1",
+    "state": "Ciudad 1",
+    "nomclature": "Carrera 20 # 20 - 20"
+
+}
