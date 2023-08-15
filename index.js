@@ -1,16 +1,14 @@
 //Importaciones Librerias
-const express = require('express')
 const mongoose = require("mongoose")
-const app = express()
 //Importaciones archivos 
 const {DB_HOST, DB_USER, DB_PASSWORD , IP_SERVER, API_VERSION} = require('./config')
-const {PORT} = require('./app')
+const app = require('./app')
 
 
 //mongodb+srv://software2_practica1:<password>@cluster1.n2tcl.mongodb.net/
 
 //Conexión a la base de datos
-let connection_string = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/` 
+const connection_string = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/` 
 
 mongoose
     .connect(connection_string)

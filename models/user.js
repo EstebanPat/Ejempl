@@ -5,6 +5,8 @@ const userSchema = mongoose.Schema({
     lastname: { type: String },
     email: { type: String },
     password: { type: String },
+    active: { type: Boolean },
+    rol: { type: String },
     address: { type: mongoose.Schema.Types.ObjectId, ref:"Address"}
 })
 

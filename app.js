@@ -1,10 +1,12 @@
 
 //Importacion de librerias
 const bodyParser = require("body-parser")
-const express = require('express')
-const addressRoutes = require("./routes/address")
+const express = require("express")
+const addressRoutes = require("./controllers/address")
+const userRoutes = require("./controllers/user")
+
 //Importacion de archivos
-const { API_VERSION, IP_SERVER } = require('./config')
+const { API_VERSION } = require('./config')
 PORT = 3000
 
 const app = express()
@@ -14,13 +16,11 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 //Configuracion cabeceras HTTP
-app.use(`/${this.PORT}/${API_VERSION}/addresses`, addressRoutes)
+app.use(`/${API_VERSION}/addresses`, addressRoutes)
+app.use(`/${API_VERSION}/users`, userRoutes)
 
 /* 
     get = v1/addresses
     post = v1/addresses/new-address
 */
-module.exports = {
-    PORT,
-    app
-}
+module.exports = app
