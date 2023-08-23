@@ -15,7 +15,7 @@ mongoose
     .then(()=>
         {
             console.log('Conexion exitosa')
-            app.listen(PORT, ()=>console.log(`IP SERVER:\nhttp://${IP_SERVER}:${PORT}/${API_VERSION}`))
+            app.listen(PORT, ()=>console.log(`IP SERVER:\nhttp://${IP_SERVER}:${PORT}/api/${API_VERSION}`))
         })
     .catch((err)=>console.error(err))
 

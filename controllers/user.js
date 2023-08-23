@@ -1,10 +1,9 @@
-const express = require("express");
-const router = express.Router();
-const User = require("../models/User");
+const User = require("../models/user");
 const bcrypt = require("bcrypt")
+const jwt = require("../utils/jwt")
 
 // Crear usuario
-router.post("/signup", async (req, res) => {
+const register = async (req, res) => {
   const { name, lastmane, email, password, address } = req.body;
 
   if(name !==null && lastmane !== null && email !== null && password !== null && address !== null){
@@ -25,43 +24,116 @@ router.post("/signup", async (req, res) => {
     console.log("Faltan campos requeridos")
   }
   
-});
+};
 
 //Login
 
-router.post("/login", (req, res) => {
-    const { email, password } = req.body;
-    console.log(req.body);
-    if (email != null && password != null) {
-      const email_minusc = email.toLowerCase();
-      const user_search = User.findOne({ email: email_minusc });
-      if (user_search != null) {
-        const password_user = user_search.password;
-        const password_valid = bcrypt.compare(password, password_user);
-        if (password_valid) {
-          console.log(user_search.active);
-          res.status(200).json({ message: "Usuario logeado" });
-          // if (user_search.active == true) {
-          //   res.status(200).json({ message: "Usuario logeado" });
-          // } else {
-          //   res.status(500).json({ message: "Usuario inactivo" });
-          // }
-        } else {
-          res.status(500).json({ message: "Contraseña incorrecta" });
-        }
-      }
+const login = async (req, res) => {
+  const { email, password } = req.body;
+  console.log(req.body);
+  try {
+    if (!email || !password) {
+      throw new Error("El email y la contraseña son obligatorios");
+      console.log("no recibe datos");
     }
-  });
+    const emailLowerCase = email.toLowerCase();
+    const userStore = await User.findOne({ email: emailLowerCase }).exec();
+    if (!userStore) {
+      throw new Error("El usuario no existe");
+    }
+    const check = await bcrypt.compare(password, userStore.password);
+    if (!check) {
+      throw new Error("Contraseña incorrecta");
+    }
+    if (!userStore.active) {
+      throw new Error("Usuario no autorizado o no activo");
+    }
+    res.status(200).send({
+      access: jwt.createAccessToken(userStore)
+    });
+  } catch (error) {
+    res.status(400).send({ msg: error.message });
+    console.log();
+  }
+};
 
-//Consultar usuario creado
-router.get("/", (req, res) => {
-    User.find()
-      .then((user) => {
-        res.status(200).json(user);
-      })
-      .catch((err) => {
-        res.status(400).json(err);
-      });
-  });
+//Consultar lista de usuarios
+const getAllUsers = async(req, res) => {
+  try {
+    const response = await User.find()
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+    
+};
 
-module.exports = router;
+//Consultar un usuario
+const getUserById= async (req, res) => {
+  const { userId } = req.params;
+  try {
+    console.log(userId)
+    const response = await User.findById(userId)
+    if(!response){
+      throw new Error("El usuario no existe")
+    }else {
+      res.status(200).json(response)
+    }
+  }catch (err){
+    res.status(400).json(err)
+  }
+  
+};
+
+//Actualizar un Usuario
+const editUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const userData= req.body
+    console.log(userData)
+    if(userData.password){
+      const enscriptar_contraseña = await bcrypt.genSalt(10);
+      const contraseña = await bcrypt.hash(password, enscriptar_contraseña);
+      userData.password = contraseña
+    }
+    await User.findByIdAndUpdate(userId, userData);
+    res.status(200).json({ message: "Usuario Actualizado"})
+  } catch (error){
+    res.status(400).json(error)
+  }
+};
+
+/* router.put("/:userId", async (req, res) => {
+  try {
+    const userId = req.params;
+    const { name, lastname, address, password, email, active, rol } = req.body
+    console.log(userData)
+    
+    const enscriptar_contraseña = await bcrypt.genSalt(10);
+    const contraseña = await bcrypt.hash(password, enscriptar_contraseña);
+    await User.findByIdAndUpdate(userId, userData);
+    res.status(200).json({ message: "Usuario Actualizado"})
+  } catch (error){
+    res.status(400).json(error)
+  }
+}); */
+
+//Eliminar un Usuario 
+const deleteUser =async (req, res) => {
+  try {
+    const { userId } = req.params
+    await User.findByIdAndDelete(userId)
+    res.status(200).json({ message: "Usuario eliminado"})
+  } catch (error) {
+    res.status(400).json(error)
+  } 
+}
+
+module.exports = {
+  register,
+  login,
+  getAllUsers,
+  getUserById,
+  deleteUser,
+  editUser
+};
