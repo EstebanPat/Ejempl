@@ -4,6 +4,7 @@ const bodyParser = require("body-parser")
 const express = require("express")
 const addressRoutes = require("./controllers/address")
 const userRoutes = require("./routes/user")
+const categoryRoutes = require("./routes/category")
 
 //Importacion de archivos
 const { API_VERSION } = require('./config')
@@ -18,6 +19,7 @@ app.use(bodyParser.json())
 //Configuracion cabeceras HTTP
 app.use(`/api/${API_VERSION}/addresses`, addressRoutes)
 app.use(`/api/${API_VERSION}/users`, userRoutes)
+app.use(`/api/${API_VERSION}/categories`, categoryRoutes)
 
 /* 
     get = v1/addresses
