@@ -26,7 +26,7 @@ const getAllCategories = async (req, res) => {
     }
 }
 
-// Consultar una categoria
+// Consultar una Categoria
 const getCategoryById = async (req, res) => {
     const { categoryId } = req.params
     try {

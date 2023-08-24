@@ -5,6 +5,7 @@ const express = require("express")
 const addressRoutes = require("./controllers/address")
 const userRoutes = require("./routes/user")
 const categoryRoutes = require("./routes/category")
+const serviceRoutes = require("./routes/service")
 
 //Importacion de archivos
 const { API_VERSION } = require('./config')
@@ -20,6 +21,7 @@ app.use(bodyParser.json())
 app.use(`/api/${API_VERSION}/addresses`, addressRoutes)
 app.use(`/api/${API_VERSION}/users`, userRoutes)
 app.use(`/api/${API_VERSION}/categories`, categoryRoutes)
+app.use(`/api/${API_VERSION}/services`, serviceRoutes)
 
 /* 
     get = v1/addresses
