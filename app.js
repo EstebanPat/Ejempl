@@ -18,6 +18,11 @@ const app = express()
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
+//Configure static folder
+
+app.use(express.static("uploads"));
+app.use('/uploads', express.static('uploads'));
+
 //Configuracion cabeceras HTTP
 app.use(`/api/${API_VERSION}/addresses`, addressRoutes)
 app.use(`/api/${API_VERSION}/users`, userRoutes)

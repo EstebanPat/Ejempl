@@ -15,9 +15,12 @@ mongoose
     .then(()=>
         {
             console.log('Conexion exitosa')
-            app.listen(PORT, ()=>console.log(`IP SERVER:\nhttp://${IP_SERVER}:${PORT}/api/${API_VERSION}`))
         })
-    .catch((err)=>console.error(err))
+    .catch((err)=>console.error(err));
+
+
+
+app.listen(PORT, ()=>console.log(`IP SERVER:\nhttp://${IP_SERVER}:${PORT}/api/${API_VERSION}`))
 
 
 //Apertura del puerto poer el cual corre el proyecto

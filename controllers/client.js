@@ -1,4 +1,5 @@
 const Client = require("../models/client")
+const images = require("../utils/image")
 
 //Crear un Cliente
 

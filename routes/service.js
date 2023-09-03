@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require('multer');
+const ensuAuth = require("../middleware/authenticated")
 const serviceController = require("../controllers/service")
 
 const storage = multer.diskStorage({
@@ -13,10 +14,10 @@ const storage = multer.diskStorage({
   }); 
 const upload = multer({ storage: storage });
 
-router.post("/new-service", upload.any(), serviceController.createService)
+router.post("/new-service", [ensuAuth.ensureAuth, upload.any()], serviceController.createService)
 router.get("/", serviceController.getAllServices)
 router.get("/:serviceId", serviceController.getServiceById)
-router.patch("/edit/:serviceId", serviceController.editService)
-router.delete("/delete/:serviceId", serviceController.deleteService)
+router.patch("/edit/:serviceId", [ensuAuth.ensureAuth, upload.any()],serviceController.editService)
+router.delete("/delete/:serviceId",[ensuAuth.ensureAuth], serviceController.deleteService)
 
 module.exports = router;
