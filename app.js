@@ -9,7 +9,7 @@ const serviceRoutes = require("./routes/service")
 const clientRoutes = require("./routes/client")
 
 //Importacion de archivos
-const { API_VERSION } = require('./config.js')
+//const { API_VERSION } = require('./config.js')
 PORT = 3000
 
 const app = express()
