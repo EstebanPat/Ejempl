@@ -1,7 +1,7 @@
 //Importaciones Librerias
 const mongoose = require("mongoose")
 //Importaciones archivos 
-const {DB_HOST, DB_USER, DB_PASSWORD , IP_SERVER, API_VERSION} = require('./config')
+const {DB_HOST, DB_USER, DB_PASSWORD , IP_SERVER, API_VERSION} = require('./config.js')
 const app = require('./app')
 
 
