@@ -25,3 +25,4 @@ app.listen(PORT, ()=>console.log(`IP SERVER:\nhttp://${IP_SERVER}:${PORT}/api/${
 
 //Apertura del puerto poer el cual corre el proyecto
 
+module.exports = app;
