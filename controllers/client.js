@@ -1,5 +1,6 @@
 const Client = require("../models/client")
 const images = require("../utils/image")
+const fs = require('fs')
 
 //Crear un Cliente
 
@@ -11,7 +12,7 @@ const createClient = async (req, res) => {
     if (name !== null && email !== null && files !== null) {
 
         const new_Client = await Client({
-            name, email, active: true, photo: files.map(file=>file.path)
+            name, email, active: true, photo: files.map(file=>images.getImageUrl(file.path.replaceAll('\\', '/' )))
         })
 
         const clientDB = await new_Client.save()
@@ -55,9 +56,19 @@ const getClientById = async (req, res) => {
 const editClient = async (req, res) => {
     try {
         const { clientId } = req.params;
-        const clientData= req.body
-        console.log(clientData)
+        const client = await Client.findById(clientId)
+        const clientData= req.body;
+        const files = req.files;
+        const photo = files.map(file=>images.getImageUrl(file.path.replaceAll('\\', '/' )));
+        clientData.photo = photo;
         await Client.findByIdAndUpdate(clientId, clientData);
+
+        try {
+            client.photo.map(photo=> fs.unlinkSync(photo.replaceAll("http://localhost:3000", ".")))
+            console.log('File removed')
+        } catch(err) {
+            console.error('Something wrong happened removing the file', err)
+        }
         res.status(200).json({ message: "Cliente Actualizado"})
     } catch (error) {
         res.status(400).json(error)
@@ -69,6 +80,13 @@ const editClient = async (req, res) => {
 const deleteClient = async (req, res) => {
     try {
         const { clientId } = req.params
+        const client = await Client.findById(clientId)
+        try {
+            client.photo.map(photo=> fs.unlinkSync(photo.replaceAll("http://localhost:3000", ".")))
+            console.log('File removed')
+        } catch(err) {
+            console.error('Something wrong happened removing the file', err)
+        }
         await Client.findByIdAndDelete(clientId)
         res.status(200).json({ message: "Cliente Eliminado"})
       } catch (error) {
