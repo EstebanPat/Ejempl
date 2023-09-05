@@ -18,6 +18,6 @@ router.post("/new-service", [ensuAuth.ensureAuth, upload.any()], serviceControll
 router.get("/", serviceController.getAllServices)
 router.get("/:serviceId", serviceController.getServiceById)
 router.patch("/edit/:serviceId", [ensuAuth.ensureAuth, upload.any()],serviceController.editService)
-router.delete("/delete/:serviceId",serviceController.deleteService)
+router.delete("/delete/:serviceId",[ensuAuth.ensureAuth], serviceController.deleteService)
 
 module.exports = router;

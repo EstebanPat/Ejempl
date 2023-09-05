@@ -81,7 +81,7 @@ const deleteService = async (req, res) => {
         const { serviceId } = req.params;
         const service = await Service.findById(serviceId)
         try {
-            service.photos.map(photo=> fs.unlinkSync(photo.replaceAll("http://localhost:3000", ".")))
+            service.photos.map(photo=> fs.unlinkSync(photo.replaceAll("http://ejemplo-proyecto.vercel.app", ".")))
             console.log('File removed')
           } catch(err) {
             console.error('Something wrong happened removing the file', err)
