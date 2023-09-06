@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
+
 const createAccessToken = (user) => {
   console.log(user);
   const expToken = new Date();
@@ -27,7 +28,7 @@ const createRefreshToken = (user) => {
 };
 
 const verify = (token) => {
-  return jwt.verify(token, JWT_SECRET_KEY);
+  return jwt.verify(token, process.env.JWT_SECRET_KEY);
 };
 module.exports = {
   createAccessToken,

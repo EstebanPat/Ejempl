@@ -1,5 +1,6 @@
 const jwt = require("../utils/jwt");
 const User = require("../models/user");
+
 require('dotenv').config();
 
 
@@ -28,7 +29,7 @@ const ensureAuth = async (req, res, next) => {
     
     next();
   } catch (error) {
-    return res.status(400).send({ msg: error });
+    return res.status(400).send({ msg: "Token Invalido" });
   }
 };
 
