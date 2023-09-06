@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-
+require('dotenv').config();
 const createAccessToken = (user) => {
   console.log(user);
   const expToken = new Date();
