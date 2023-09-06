@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET_KEY } = require("../config");
 
 const createAccessToken = (user) => {
   console.log(user);
@@ -13,7 +12,7 @@ const createAccessToken = (user) => {
   };
 
   console.log("accessToken del jwt: ", payload.user_id);
-  return jwt.sign(payload, JWT_SECRET_KEY);
+  return jwt.sign(payload, process.env.JWT_SECRET_KEY);
 };
 
 const createRefreshToken = (user) => {
