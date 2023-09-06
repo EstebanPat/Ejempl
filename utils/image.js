@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000"
+const BASE_URL = "http://ejemplo-proyecto.vercel.app"
 
 function getImageUrl(imagePath){
     console.log(`${BASE_URL}/${imagePath}`)
