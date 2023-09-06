@@ -28,7 +28,7 @@ const ensureAuth = async (req, res, next) => {
     
     next();
   } catch (error) {
-    return res.status(400).send({ msg: "Token inválido" });
+    return res.status(400).send({ msg: error });
   }
 };
 
