@@ -8,6 +8,8 @@ const categoryRoutes = require("./routes/category")
 const serviceRoutes = require("./routes/service")
 const clientRoutes = require("./routes/client")
 
+require('dotenv').config();
+
 //Importacion de archivos
 
 
