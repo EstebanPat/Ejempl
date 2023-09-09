@@ -2,7 +2,7 @@
 //Importacion de librerias
 const bodyParser = require("body-parser")
 const express = require("express")
-const addressRoutes = require("./controllers/address")
+const addressRoutes = require("./routes/address")
 const userRoutes = require("./routes/user")
 const categoryRoutes = require("./routes/category")
 const serviceRoutes = require("./routes/service")
