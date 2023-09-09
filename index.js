@@ -14,7 +14,7 @@ mongoose
     .connect(connection_string)
     .then(()=>
         {
-            console.log('Conexion exitosa')
+            
         })
     .catch((err)=>console.error(err));
 

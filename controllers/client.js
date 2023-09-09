@@ -39,7 +39,6 @@ const getAllClients = async (req, res) => {
 const getClientById = async (req, res) => {
     const { clientId } = req.params
     try {
-        console.log(clientId)
         const response = await Client.findById(clientId)
         if(response !== null){
             res.status(200).json(response)
@@ -65,7 +64,6 @@ const editClient = async (req, res) => {
 
         try {
             client.photo.map(photo=> fs.unlinkSync(photo.replaceAll("http://localhost:3000", ".")))
-            console.log('File removed')
         } catch(err) {
             console.error('Something wrong happened removing the file', err)
         }
@@ -83,7 +81,7 @@ const deleteClient = async (req, res) => {
         const client = await Client.findById(clientId)
         try {
             client.photo.map(photo=> fs.unlinkSync(photo.replaceAll("http://localhost:3000", ".")))
-            console.log('File removed')
+            
         } catch(err) {
             console.error('Something wrong happened removing the file', err)
         }

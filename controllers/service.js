@@ -7,7 +7,6 @@ const createService = async (req, res) => {
 
     const { name, description, category } = req.body
     const files = req.files
-    console.log(files)
     
     if(name !== null && description !== null && category !== null && files !== null ){
         const new_service = await Service({
@@ -36,7 +35,6 @@ const getAllServices = async (req, res) => {
 const getServiceById = async (req, res) => {
     const { serviceId } = req.params
     try {
-        console.log(serviceId)
         const response = await Service.findById(serviceId)
         if(response !== null){
             res.status(200).json(response)
@@ -59,12 +57,10 @@ const editService = async (req, res) => {
         const files = req.files;
         const photos = files.map(file=>images.getImageUrl(file.path.replaceAll('\\', '/' )));
         serviceData.photos = photos;
-        console.log(serviceData)
         await Service.findByIdAndUpdate(serviceId, serviceData);
         
         try {
             service.photos.map(photo=> fs.unlinkSync(photo.replaceAll("http://localhost:3000", ".")))
-            console.log('File removed')
           } catch(err) {
             console.error('Something wrong happened removing the file', err)
           }
@@ -82,7 +78,6 @@ const deleteService = async (req, res) => {
         const service = await Service.findById(serviceId)
         try {
             service.photos.map(photo=> fs.unlinkSync(photo.replaceAll("http://localhost:3000", ".")))
-            console.log('File removed')
         } catch(err) {
             console.error('Something wrong happened removing the file', err)
         }

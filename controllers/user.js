@@ -7,17 +7,12 @@ const register = async (req, res) => {
   const { name, lastmane, email, password, address } = req.body;
 
   if(name !==null && lastmane !== null && email !== null && password !== null && address !== null){
-    console.log("Contraseña", password)
     const enscriptar_contraseña = await bcrypt.genSalt(10)
-    const contraseña = await bcrypt.hash(password, enscriptar_contraseña)
-
-    console.log("Contraseña encriptada", contraseña)
-    
+    const contraseña = await bcrypt.hash(password, enscriptar_contraseña)    
 
     const new_user = await User({
         name, lastmane, email: email.toLowerCase(), password: contraseña, address, active: true, rol:"user"
     })
-    console.log("Usuario creado ", new_user)
     const userDB = await new_user.save()
     res.status(201).json(userDB)
   } else {
@@ -73,7 +68,6 @@ const getAllUsers = async(req, res) => {
 const getUserById= async (req, res) => {
   const { userId } = req.params;
   try {
-    console.log(userId)
     const response = await User.findById(userId)
     if(!response){
       throw new Error("El usuario no existe")
@@ -91,7 +85,6 @@ const editUser = async (req, res) => {
   try {
     const { userId } = req.params;
     const userData= req.body
-    console.log(userData)
     if(userData.password){
       const enscriptar_contraseña = await bcrypt.genSalt(10);
       const contraseña = await bcrypt.hash(password, enscriptar_contraseña);
